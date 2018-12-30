@@ -2,9 +2,6 @@
 
 # PX-web json-tiedoston käsittely ja parsinta http://api.aluesarjat.fi/
 
-# Kuvaajien luominen R:llä
-# if-lauseilla kuvaajan välit oikeaksi (sadoittain vs 500 välein) if väli 5000-2500 > 2500: valitse väli 500
-
 # Lataaminen Wikimedia Commonsiin Pywikibotilla
 
 def importJSON(filedir):
@@ -15,12 +12,12 @@ def importJSON(filedir):
     
     return data, size
 	
-def areacodes_to_txt(data):
+def areacodes_to_csv(data):
     d = data["dataset"]["dimension"]["Alue"]["category"]["label"]
-    f = open("data/areacodes.txt", "w+")
+    f = open("data/areacodes.csv", "w+")
 
     for key in d.items():
-        f.write("{:10s}  |  {:s}\n".format(key[0], key[1]))
+        f.write("{:10s},{:s}\n".format(key[0], key[1]))
 
     f.close()
 
