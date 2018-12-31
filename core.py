@@ -13,45 +13,53 @@ def areacodes_to_csv(data):
     import parser
     parser.areacodes_to_csv(data)
 
-def plot_single(data, size):
-    while True:
-        try:
-            areacode = str(input("Give areacode to plot or \"q\" to quit: "))
-            if areacode == ("q" or "Q"):
-                break
-            else:
-                data_arr = collect_data(data, size, areacode)
-                plot_data(data_arr, size)
-
-        except KeyError:
-            print('\033[31m' + "Error: " + '\033[0m' + "Please enter a valid areacode")
-
-def plot_from_list(data, size):
-    print('not implemented')
-
-def plot_from_csv(data, size):
-    import csv
-    file = csv.reader(open('data/list.csv', 'r', encoding = 'utf-8'))
-    list = []
-
-    for row in file:
-        list.append(row[0])
-
-    print(list)
+def plot_data(areacode, arr, size, mode, filedir):
+    import MPLdiagrams
+    print('plotter')
+    MPLdiagrams.plotter(areacode, arr, size, mode, filedir)
 
 def collect_data(data, size, areacode):
     import parser
     return parser.collect_data(data, size, areacode)
 
-def plot_data(arr, size):
-    import MPLdiagrams
-    print('plotter')
-    MPLdiagrams.plotter(arr, size)
+def plot_single(data, size, filedir):
+    try:
+        while True:
+            areacode = str(input("Give areacode to plot or \"q\" to quit: "))
+            if areacode == ("q" or "Q"):
+                break
+            else:
+                data_arr = collect_data(data, size, areacode)
+                plot_data(areacode, data_arr, size, 'visual', filedir)
+
+    except KeyError:
+        print('\033[31m' + "Error: " + '\033[0m' + "Please enter a valid areacode")
+
+def plot_from_list(data, size, list, filedir):
+    for areacode in list:
+        data_arr = collect_data(data, size, areacode)
+        plot_data(areacode, data_arr, size, 'svg', filedir)
+
+def plot_from_csv(data, size, filedir):
+    from csv import reader as csv_reader
+    file = csv_reader(open('data/list.csv', 'r', encoding = 'utf-8'))
+    list = []
+
+    for row in file:
+        list.append(row[0])
+    plot_from_list(data, size, list, filedir)
+
 
 def main():
     try:
-        filedir = run_setup()
-        data, size = importJSON(filedir)
+        import os
+        data_dir, export_dir = run_setup()
+        data, size = importJSON(data_dir)
+        export_dir = str(export_dir + '2018/')
+        if not os.path.exists(export_dir):
+            os.makedirs(export_dir)
+
+        list = []
 
         while True:
             print('1: Write area codes to txt\n2: Plot single area\n3: Plot areas from list\n4: Plot areas from csv\nq: Quit')
@@ -59,11 +67,11 @@ def main():
             if (mode == '1'):
                 areacodes_to_csv(data)
             elif mode == '2':
-                plot_single(data, size)
+                plot_single(data, size, export_dir)
             elif mode == '3':
-                plot_from_list(data, size)
+                plot_from_list(data, size, export_dir)
             elif mode == '4':
-                plot_from_csv(data, size)
+                plot_from_csv(data, size, export_dir)
             elif mode == 'q':
                 break
             else:

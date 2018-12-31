@@ -1,12 +1,14 @@
-import json
+from json import load, JSONDecoder
 
 def run_setup():
-    data = json.load(open("setup.json","r", encoding='utf-8'))
-    filedir = str(data["constants"]['filedir'])
-    return filedir
+    data = load(open("setup.json","r", encoding='utf-8'))
+    data_dir = str(data["constants"]['data_dir'])
+    export_dir = str(data["constants"]['export_dir'])
+
+    return data_dir, export_dir
 
 def importJSON(filedir):
-    data = json.load(open(filedir,"r", encoding='utf-8'))
+    data = load(open(filedir,"r", encoding='utf-8'))
 
     size = data["dataset"]["dimension"]["size"]
 
