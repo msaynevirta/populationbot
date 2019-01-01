@@ -1,7 +1,7 @@
 def run_setup():
     import JSONhandler
-    filedir = JSONhandler.run_setup()
-    return filedir
+    data_dir, export_dir, report_dir = JSONhandler.run_setup()
+    return data_dir, export_dir, report_dir
 
 def importJSON(filedir): #should be in the top level program, should be run at the initialisation of the program
     import JSONhandler
@@ -60,7 +60,7 @@ def fix_data(data, data_dir, size):
 def main():
     try:
         import os
-        data_dir, export_dir = run_setup()
+        data_dir, export_dir, report_dir = run_setup()
         data, size = importJSON(data_dir)
         export_dir = str(export_dir + '2018/')
         if not os.path.exists(export_dir):
@@ -89,7 +89,7 @@ def main():
                 if mode == '1':
                     fix_data(data, data_dir, size)
                 elif mode == '2':
-                    merge_data(data, data_dir, size)
+                    merge_data(data, data_dir, report_dir, size)
 
             elif mode == 'q':
                 break

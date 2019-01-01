@@ -1,6 +1,7 @@
 {"constants":
 	{
 	"data_dir":"data/test1.json",
-	"export_dir":"/home/markus/Documents/Projects/Python/populationbot/export/"
+	"export_dir":"/home/markus/Documents/Projects/Python/populationbot/export/",
+	"report_dir":"reports/"
 	}
 }

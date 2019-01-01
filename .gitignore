@@ -2,6 +2,7 @@
 __pycache__/
 data/
 export/
+reports/
 Rdiagrams.py
 *.swp
 setup.json

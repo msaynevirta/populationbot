@@ -3,17 +3,17 @@ import os
 
 def merge(data, data_dir, report_dir, size):
     val_list = []
-
+  
     areacode1 = input('Please enter the first areacode: ')
     areacode2 = input('Please enter the second areacode: ')
-
+    
     lab1 = data["dataset"]["dimension"]["Alue"]["category"]["label"][areacode1]
     lab2 = data["dataset"]["dimension"]["Alue"]["category"]["label"][areacode2]
     print('Merging {:s} to {:s}'.format(lab1, lab2))
     
     report_file = str(report_dir + 'merges.txt')
     with open(report_file, 'a') as f:
-        f.write('Merged {:s} ({:s}) to {:s} ({:s})'.format(lab1, areacode1, lab2, areacode2)
+        f.write('Merged {:s} ({:s}) to {:s} ({:s})\n'.format(lab1, areacode1, lab2, areacode2))
 
 def fix(data, filename, size): 
     val_list = [] 
