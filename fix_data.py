@@ -1,6 +1,12 @@
 import json
 import os
 
+def collect_data(data, size, areacode1, areacode2):
+    import parser
+    data_arr1 = parser.collect_data(data, size, areacode1)
+    data_arr2 = parser.collect_data(data, size, areacode2)
+    return data_arr1, data_arr2
+
 def merge(data, data_dir, report_dir, size):
     val_list = []
   
@@ -14,6 +20,8 @@ def merge(data, data_dir, report_dir, size):
     report_file = str(report_dir + 'merges.txt')
     with open(report_file, 'a') as f:
         f.write('Merged {:s} ({:s}) to {:s} ({:s})\n'.format(lab1, areacode1, lab2, areacode2))
+    
+    data_arr1, data_arr2 = collect_data(data, size, areacode1, areacode2)
 
 def fix(data, filename, size): 
     val_list = [] 
