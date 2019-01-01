@@ -49,6 +49,13 @@ def plot_from_csv(data, size, filedir):
         list.append(row[0])
     plot_from_list(data, size, list, filedir)
 
+def merge_data(data, data_dir, report_dir, size):
+    from fix_data import merge
+    merge(data, data_dir, report_dir, size)
+
+def fix_data(data, data_dir, size):
+    from fix_data import fix
+    fix(data, data_dir, size)
 
 def main():
     try:
@@ -62,16 +69,28 @@ def main():
         list = []
 
         while True:
-            print('1: Write area codes to txt\n2: Plot single area\n3: Plot areas from list\n4: Plot areas from csv\nq: Quit')
+            print('1: Write area codes to txt\n2: Plot areas\n3: Fix data\nq: Quit')
             mode = input('Give the operation code: ')
             if (mode == '1'):
                 areacodes_to_csv(data)
             elif mode == '2':
-                plot_single(data, size, export_dir)
+                print('1: Plot single area\n2: Plot areas from list\n3: Plot areas from csv\nq: Quit')
+                mode = input('Give the operation code: ')
+                if mode == '1':
+                    plot_single(data, size, export_dir)
+                elif mode == '2':
+                    plot_from_list(data, size, export_dir)
+                elif mode == '3':
+                    plot_from_csv(data, size, export_dir)
+
             elif mode == '3':
-                plot_from_list(data, size, export_dir)
-            elif mode == '4':
-                plot_from_csv(data, size, export_dir)
+                print('1: Fix values individually\n2: Merge two areacodes\nq: Quit')
+                mode = input('Give the operation code: ')
+                if mode == '1':
+                    fix_data(data, data_dir, size)
+                elif mode == '2':
+                    merge_data(data, data_dir, size)
+
             elif mode == 'q':
                 break
             else:
