@@ -1,10 +1,10 @@
-import json
-import os
+from json import dump, JSONEncoder, JSONDecoder
+from os import remove
 
 def collect_data(data, size, areacode1, areacode2):
-    import parser
-    data_arr1 = parser.collect_data(data, size, areacode1)
-    data_arr2 = parser.collect_data(data, size, areacode2)
+    from parser import collect_data
+    data_arr1 = collect_data(data, size, areacode1)
+    data_arr2 = collect_data(data, size, areacode2)
     return data_arr1, data_arr2
 
 def merge(data, data_dir, report_dir, size):

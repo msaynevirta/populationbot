@@ -1,26 +1,24 @@
 def run_setup():
-    import JSONhandler
-    data_dir, export_dir, report_dir = JSONhandler.run_setup()
+    from JSONhandler import run_setup
+    data_dir, export_dir, report_dir = run_setup()
     return data_dir, export_dir, report_dir
 
 def importJSON(filedir): #should be in the top level program, should be run at the initialisation of the program
-    import JSONhandler
-    data, size = JSONhandler.importJSON(filedir)
-    print("import successful")
+    from JSONhandler import importJSON
+    data, size = importJSON(filedir)
     return data, size
 
 def areacodes_to_csv(data):
-    import parser
-    parser.areacodes_to_csv(data)
+    from parser import areacodes_to_csv
+    areacodes_to_csv(data)
 
 def plot_data(areacode, arr, size, mode, filedir):
-    import MPLdiagrams
-    print('plotter')
-    MPLdiagrams.plotter(areacode, arr, size, mode, filedir)
+    from MPLdiagrams import plotter
+    plotter(areacode, arr, size, mode, filedir)
 
 def collect_data(data, size, areacode):
-    import parser
-    return parser.collect_data(data, size, areacode)
+    from parser import collect_data
+    return collect_data(data, size, areacode)
 
 def plot_single(data, size, filedir):
     try:
