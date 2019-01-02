@@ -84,8 +84,8 @@ def plotter(areacode, data, size, mode, filedir):
         if mode == 'visual':
             plt.show()
             
-            exit = input('Exit plotting mode? (y/n)')
-            if exit == 'y':
+            exit = input('Exit plotting mode? (q/n)')
+            if exit == 'q':
                 break
 
         elif mode == 'svg':

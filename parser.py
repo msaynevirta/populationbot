@@ -51,7 +51,7 @@ def collect_data(data, size, areacode):
     return main_list
 
 def write_data(data, size, filename, areacode, list_to_write):
-    import os import remove
+    from os import remove as os_remove
     from json import dump, JSONEncoder
 
     index = data["dataset"]["dimension"]["Alue"]["category"]["index"][areacode]
@@ -66,17 +66,9 @@ def write_data(data, size, filename, areacode, list_to_write):
         i += 1
         j += 1
 
-    os.remove(filename)
+    os_remove(filename)
     with open(filename, 'w') as f:
-        json.dump(data, f, indent = 5)
+        dump(data, f, indent = 5)
 
     print('Values were written successfully')
-
-"""
-def main():
-	areacode = str(input("give areacode"))
-	print(collect_data(areacode))
-	
-main()
-"""
 

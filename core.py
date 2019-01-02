@@ -95,8 +95,11 @@ def main():
                 print('\033[31m' + "Error: " + '\033[0m' + "Please enter a valid operation code.\n")
 
     except FileNotFoundError:
-        print('\033[31m' + "Error: " + '\033[0m' + "Check the filename.")
+        print('\033[31m' + "Error: " + '\033[0m' + "Check the filename")
     except ModuleNotFoundError as e:
         print('\033[31m' + "Error: " + '\033[0m' + str(e))
+    except TypeError:
+        print('\033[31m' + "Error: " + '\033[0m' + 'Setup failed')
+
 
 main()
