@@ -39,8 +39,6 @@ def collect_data(data, size, areacode):
     year = 1975
     start = i = size[2]*index #find the starting position of the population data
 
-    lab = data["dataset"]["dimension"]["Alue"]["category"]["label"][areacode]
-
     while i < start + size[2]:
         val = data["dataset"]["value"][i]
         year_list.append(year)
@@ -51,6 +49,28 @@ def collect_data(data, size, areacode):
     main_list.append(year_list)
     main_list.append(val_list)
     return main_list
+
+def write_data(data, size, areacode, list_to_write):
+    import os import remove
+    from json import dump, JSONEncoder
+
+    index = data["dataset"]["dimension"]["Alue"]["category"]["index"][areacode]
+    start = i = size[2]*index #find the starting position of the population data
+
+    i = start
+    j = 0
+
+    while i < start + size[2]:
+        data["dataset"]["value"][i] = list_to_write[j]
+        print(list_to_write[j])
+        i += 1
+        j += 1
+
+    os.remove(filename)
+    with open(filename, 'w') as f:
+        json.dump(data, f, indent = 5)
+
+    print('Values were written successfully')
 
 """
 def main():
