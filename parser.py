@@ -50,7 +50,7 @@ def collect_data(data, size, areacode):
     main_list.append(val_list)
     return main_list
 
-def write_data(data, size, areacode, list_to_write):
+def write_data(data, size, filename, areacode, list_to_write):
     import os import remove
     from json import dump, JSONEncoder
 
