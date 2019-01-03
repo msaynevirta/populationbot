@@ -22,14 +22,27 @@ def collect_data(data, size, areacode):
 
 def plot_single(data, size, filedir):
     try:
+        last_areacode = ''
+        print('Areacode: Plot diagram in temporary window\nq: Quit')
         while True:
-            areacode = str(input("Give areacode to plot or \"q\" to quit: "))
-            if areacode == ("q" or "Q"):
+            areacode = str(input('Please enter areacode or operation code: '))
+            if areacode == 'q':
                 break
+            if last_areacode == '' and areacode == 'w':
+                print('\033[31m' + "Error: " + '\033[0m' + 'Please enter the areacode first')
+                continue
             else:
-                data_arr = collect_data(data, size, areacode)
-                plot_data(areacode, data_arr, size, 'visual', filedir)
-
+                
+                if areacode == 'w':
+                    data_arr = collect_data(data, size, last_areacode)
+                    plot_data(last_areacode, data_arr, size, 'svg', filedir)
+                else:
+                    data_arr = collect_data(data, size, areacode)
+                    plot_data(areacode, data_arr, size, 'visual', filedir)
+                    if areacode != 'w':
+                        last_areacode = areacode
+            print('Areacode: Plot diagram in temporary window\nw: Plot last area as svg\nq: Quit')
+           
     except KeyError:
         print('\033[31m' + "Error: " + '\033[0m' + "Please enter a valid areacode")
 
@@ -40,7 +53,7 @@ def plot_from_list(data, size, list, filedir):
 
 def plot_from_csv(data, size, filedir):
     from csv import reader as csv_reader
-    file = csv_reader(open('data/list.csv', 'r', encoding = 'utf-8'))
+    file = csv_reader(open('data/areacodes.csv', 'r', encoding = 'utf-8'))
     list = []
 
     for row in file:
@@ -67,7 +80,7 @@ def main():
         list = []
 
         while True:
-            print('1: Write area codes to txt\n2: Plot areas\n3: Fix data\nq: Quit')
+            print('1: Write area codes to csv\n2: Plot areas\n3: Fix data\nq: Quit')
             mode = input('Give the operation code: ')
             if (mode == '1'):
                 areacodes_to_csv(data)
