@@ -2,9 +2,6 @@
 
 # PX-web json-tiedoston käsittely ja parsinta http://api.aluesarjat.fi/
 
-# Kuvaajien luominen R:llä
-# if-lauseilla kuvaajan välit oikeaksi (sadoittain vs 500 välein) if väli 5000-2500 > 2500: valitse väli 500
-
 # Lataaminen Wikimedia Commonsiin Pywikibotilla
 
 def importJSON(filedir):
@@ -15,12 +12,12 @@ def importJSON(filedir):
     
     return data, size
 	
-def areacodes_to_txt(data):
+def areacodes_to_csv(data):
     d = data["dataset"]["dimension"]["Alue"]["category"]["label"]
-    f = open("data/areacodes.txt", "w+")
+    f = open("data/areacodes.csv", "w+")
 
     for key in d.items():
-        f.write("{:10s}  |  {:s}\n".format(key[0], key[1]))
+        f.write("{:10s},{:s}\n".format(key[0], key[1]))
 
     f.close()
 
@@ -42,8 +39,6 @@ def collect_data(data, size, areacode):
     year = 1975
     start = i = size[2]*index #find the starting position of the population data
 
-    lab = data["dataset"]["dimension"]["Alue"]["category"]["label"][areacode]
-
     while i < start + size[2]:
         val = data["dataset"]["value"][i]
         year_list.append(year)
@@ -55,11 +50,25 @@ def collect_data(data, size, areacode):
     main_list.append(val_list)
     return main_list
 
-"""
-def main():
-	areacode = str(input("give areacode"))
-	print(collect_data(areacode))
-	
-main()
-"""
+def write_data(data, size, filename, areacode, list_to_write):
+    from os import remove as os_remove
+    from json import dump, JSONEncoder
+
+    index = data["dataset"]["dimension"]["Alue"]["category"]["index"][areacode]
+    start = i = size[2]*index #find the starting position of the population data
+
+    i = start
+    j = 0
+
+    while i < start + size[2]:
+        data["dataset"]["value"][i] = list_to_write[j]
+        print(list_to_write[j])
+        i += 1
+        j += 1
+
+    os_remove(filename)
+    with open(filename, 'w') as f:
+        dump(data, f, indent = 5)
+
+    print('Values were written successfully')
 
