@@ -6,8 +6,6 @@ import matplotlib.pyplot as plt
 def find_years(data):
     a1 = int(min(data[0]))
     a2 = int(max(data[0]))
-    print('setting limits a1 =', a1, 'a2 =',a2)
-
     return r_[a1:a2:5], a1, a2
 
 def find_yamp(data):
@@ -20,7 +18,6 @@ def find_yamp(data):
         y1 = int(math.trunc(min(data[1])/div)*div)
         y2 = int(math.trunc(max(data[1])/div)*div)
         delta = y2 - y1
-        print('setting amps y1 =', y1, 'y2 =', y2)
 
     except TypeError as e:
         if max(i for i in data[1] if i is not None) < 10000:
@@ -28,7 +25,7 @@ def find_yamp(data):
         else:
             div = 1000
 
-        print('\033[31m' + 'Error: ' + '\033[0m'+ str(e))
+        print('\033[31m' + 'Error: ' + '\033[0m'+ str(e) + '({:s})')
         y1 = int(math.trunc(min(i for i in data[1] if i is not None)/div)*div)
         y2 = int(math.trunc(max(j for j in data[1] if j is not None)/div)*div)
         delta = y2 - y1
@@ -69,28 +66,30 @@ def find_yamp(data):
 
 def plotter(areacode, data, size, mode, filedir):
     while True:
-        xamp, a1, a2 = find_years(data)
-        yamp = find_yamp(data)
-        print(xamp, yamp)
-        plt.figure(figsize=(8,4.84))
-        plt.plot(data[0], data[1], linewidth=3)
-        plt.yticks(yamp)
-        plt.xticks(xamp)
-        plt.grid(True)
-        plt.xlabel('Vuosi')
-        plt.ylabel('Väestö')
-        plt.suptitle('Väestö {:d}–{:d}'.format(a1, a2), fontweight='bold')
+        try:
+            xamp, a1, a2 = find_years(data)
+            yamp = find_yamp(data)
+            plt.figure(figsize=(8,4.84))
+            plt.plot(data[0], data[1], linewidth=3)
+            plt.yticks(yamp)
+            plt.xticks(xamp)
+            plt.grid(True)
+            plt.xlabel('Vuosi')
+            plt.ylabel('Väestö')
+            plt.suptitle('Väestö {:d}–{:d}'.format(a1, a2), fontweight='bold')
 
-        if mode == 'visual':
-            plt.show()
-            
-            exit = input('Exit plotting mode? (q/n)')
-            if exit == 'q':
+            if mode == 'visual':
+                plt.show()
                 break
 
-        elif mode == 'svg':
-            filename = str(filedir + areacode + '.svg')
-            plt.savefig(filename, format='svg')
-            plt.close()
-            break
+            elif mode == 'svg':
+                filename = str(filedir + areacode + '.svg')
+                plt.savefig(filename, format='svg')
+                plt.close()
+                print('Plotted {:s} successfully'.format(areacode))
+                break
+        except ValueError as e:
+            print('\033[31m' + "Error: " + '\033[0m' + 'failed to plot {:s}: '.format(areacode) + str(e))
+            return False
+
 
